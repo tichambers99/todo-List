@@ -69,23 +69,41 @@ class App extends Component {
         <div className="text-header">todos</div>
         <Clock />
         <div className="todoItems">
-        <div className='text-input'>
-          <img src = {tickImng} height = {20} width = {20} alt="check-mark"></img>
-          <input 
-            type="text"
-            placeholder="What needs to be done?" 
-            onKeyUp={this.onKeyUp}
-            value={newItem}
-            onChange={this.onChange}
-          />
-        </div>
-          {todoItems.length > 0 && todoItems.map((item, index) => 
-            <TodoList 
-              key ={index}
-              item={item} 
-              onClick = {this.onItemClicked(item)}/>)
-          }
-        </div>
+          <div className='text-input'>
+            <img src = {tickImng} height = {20} width = {20} alt="check-mark"></img>
+            <input 
+              type="text"
+              placeholder="What needs to be done?" 
+              onKeyUp={this.onKeyUp}
+              value={newItem}
+              onChange={this.onChange}
+            />
+          </div>
+            {todoItems.length > 0 && todoItems.map((item, index) => 
+              <TodoList 
+                key ={index}
+                item={item} 
+                onClick = {this.onItemClicked(item)}/>)
+            }
+            <div className="footer">
+              <div>2 items left</div>
+              <div>
+                <button>
+                  All
+                </button>
+                <button>
+                  Active
+                </button>
+                <button>
+                  Completed
+                </button>
+              </div>
+              <div>
+                Clear completed
+              </div>
+            </div>
+          </div>
+          
       </div>
     );
   }
