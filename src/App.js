@@ -3,6 +3,7 @@ import './App.css';
 import TodoList from './components/TodoList';
 // import Toggle from './components/Toggle';
 import Clock from './components/Clock';
+import Toggle from './components/Toggle';
 import { Component } from 'react';
 import tickImng from './img/tick.svg'
 
@@ -10,6 +11,7 @@ class App extends Component {
   constructor(){
     super();
     this.state ={
+      filter: '',
       newItem: '',
       todoItems:  [
         {title: 'Go to school',isComplete: true},
@@ -20,6 +22,10 @@ class App extends Component {
     // this.onItemClicked = this.onItemClicked.bind(this);
     this.onKeyUp = this.onKeyUp.bind(this);
     this.onChange = this.onChange.bind(this);
+    this.onClickShowActive = this.onClickShowActive.bind(this);
+    this.onClickShowAll = this.onClickShowAll.bind(this);
+    this.onClickShowCompleted = this.onClickShowCompleted.bind(this);
+    this.clearCompleted = this.clearCompleted.bind(this);
   }
 
   onItemClicked(item){
@@ -62,8 +68,35 @@ class App extends Component {
     })
   }
 
+
+  onClickShowAll(){
+    this.setState({
+      filter: ""
+    })
+  }
+
+  onClickShowActive(){
+    this.setState({
+      filter: "active"
+    })
+  }
+  
+  onClickShowCompleted(){
+    this.setState({
+      filter: "completed"
+    })
+  }
+
+  clearCompleted(){
+
+    var activeList = this.state.todoItems.filter(item => item.isComplete === false);
+    this.setState({
+      todoItems: activeList
+    })
+  }
+
   render(){
-    const {todoItems, newItem} = this.state;
+    const {todoItems, newItem, filter} = this.state;
     return (
       <div className="App">
         <div className="text-header">todos</div>
@@ -79,28 +112,50 @@ class App extends Component {
               onChange={this.onChange}
             />
           </div>
-            {todoItems.length > 0 && todoItems.map((item, index) => 
+            {/*show all the list*/}
+            {filter==="" && todoItems.length > 0 && todoItems.map((item, index) => 
               <TodoList 
                 key ={index}
                 item={item} 
                 onClick = {this.onItemClicked(item)}/>)
             }
+
+            {/*show the active list*/}
+            {filter==="active"
+            && todoItems.length > 0
+            && todoItems.filter(item => item.isComplete === false).map((item, index) => 
+              <TodoList 
+                key ={index}
+                item={item} 
+                onClick = {this.onItemClicked(item)}/>)
+            }
+
+            {/*show the completed list*/}
+            {filter==="completed"
+            && todoItems.length > 0
+            && todoItems.filter(item => item.isComplete === true).map((item, index) => 
+              <TodoList 
+                key ={index}
+                item={item} 
+                onClick = {this.onItemClicked(item)}/>)
+            }
+
             <div className="footer">
               <div>2 items left</div>
               <div>
-                <button>
+                <button onClick={this.onClickShowAll}>
                   All
                 </button>
-                <button>
+                <button onClick={this.onClickShowActive}>
                   Active
                 </button>
-                <button>
+                <button onClick={this.onClickShowCompleted}>
                   Completed
                 </button>
               </div>
-              <div>
+              <button className="clear" onClick={this.clearCompleted}>
                 Clear completed
-              </div>
+              </button>
             </div>
           </div>
           
