@@ -79,6 +79,10 @@ input:focus{
   font-style: italic;
 }
 
+.active {
+  border: solid 1px #48B167 !important;
+}
+
 .footer button {
   margin: 0px 5px;
   font-size: 16px;
@@ -94,6 +98,10 @@ input:focus{
 
 .footer button:focus {
   outline: none;
+}
+
+.footer > div,button{
+  flex-basis: 1;
 }
 
 .clear:hover{

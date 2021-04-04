@@ -1,10 +1,11 @@
 import './App.css';
 
 import TodoList from './components/TodoList';
-// import Toggle from './components/Toggle';
 import Clock from './components/Clock';
 import Toggle from './components/Toggle';
 import { Component } from 'react';
+
+import classNames from 'classnames'
 import tickImng from './img/tick.svg'
 
 class App extends Component {
@@ -26,6 +27,7 @@ class App extends Component {
     this.onClickShowAll = this.onClickShowAll.bind(this);
     this.onClickShowCompleted = this.onClickShowCompleted.bind(this);
     this.clearCompleted = this.clearCompleted.bind(this);
+    this.completeAll = this.completeAll.bind(this);
   }
 
   onItemClicked(item){
@@ -95,6 +97,18 @@ class App extends Component {
     })
   }
 
+  completeAll(){
+    var activeList = this.state.todoItems;
+    activeList.forEach(item => {
+      item.isComplete = true;
+    })
+    console.log(activeList);
+
+    this.setState({
+      todoItems: activeList
+    })
+  }
+
   render(){
     const {todoItems, newItem, filter} = this.state;
     return (
@@ -103,7 +117,7 @@ class App extends Component {
         <Clock />
         <div className="todoItems">
           <div className='text-input'>
-            <img src = {tickImng} height = {20} width = {20} alt="check-mark"></img>
+            <img src = {tickImng} height = {20} width = {20} alt="check-mark" onClick={this.completeAll}></img>
             <input 
               type="text"
               placeholder="What needs to be done?" 
@@ -141,15 +155,27 @@ class App extends Component {
             }
 
             <div className="footer">
-              <div>2 items left</div>
+              <div>todolist</div>
               <div>
-                <button onClick={this.onClickShowAll}>
+                <button
+                  className={classNames(
+                    {'active': filter === ""}
+                  )}
+                  onClick={this.onClickShowAll}>
                   All
                 </button>
-                <button onClick={this.onClickShowActive}>
+                <button
+                  className={classNames(
+                    {'active': filter === "active"}
+                  )}
+                  onClick={this.onClickShowActive}>
                   Active
                 </button>
-                <button onClick={this.onClickShowCompleted}>
+                <button
+                  className={classNames(
+                    {'active': filter === "completed"}
+                  )}
+                  onClick={this.onClickShowCompleted}>
                   Completed
                 </button>
               </div>
